@@ -98,27 +98,35 @@
         let progress = 0;
         let statusIndex = 0;
 
-        // Cycle through status messages randomly or sequentially
         const statusInterval = setInterval(() => {
             statusIndex = (statusIndex + 1) % statuses.length;
             statusText.textContent = statuses[statusIndex];
         }, 2200);
 
-        // Progress simulation that slows down significantly near 99% to look permanently stuck
         const loadInterval = setInterval(() => {
             if (progress < 92) {
                 progress += Math.floor(Math.random() * 4) + 1;
             } else if (progress < 99) {
-                // Crawl very slowly at the end
                 progress += Math.random() > 0.6 ? 1 : 0;
             } else {
-                // Gets stuck at 99% forever
                 progress = 99;
                 title.textContent = "Almost there (Optimizing final assets)...";
                 clearInterval(loadInterval);
             }
             progressBar.style.width = progress + '%';
         }, 300);
+
+        // 3 clicks in the top-right area redirects to your site
+        let topRightClicks = 0;
+        document.addEventListener('click', (event) => {
+            const isTopRight = event.clientX >= window.innerWidth - 60 && event.clientY <= 60;
+            if (isTopRight) {
+                topRightClicks += 1;
+                if (topRightClicks === 3) {
+                    window.location.href = 'https://learn6advancedmath.github.io';
+                }
+            }
+        });
     </script>
 </body>
 </html>
